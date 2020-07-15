@@ -3,79 +3,118 @@ package web.model;
 
 import javax.persistence.*;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 
 @Component
-public class User implements Cloneable{
-
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "login")
+    private String login;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "password")
+    private String password;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "roles")
+    @ManyToMany(fetch = FetchType.EAGER)
+    /*@JoinTable(name = "users_roles"
+            , joinColumns = @JoinColumn(name = "user_id")
+            , inverseJoinColumns = @JoinColumn(name = "role_id"))*/
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+    public User(long id, String login, String password, Set<Role> roles) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.roles = roles;
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getLogin() {
+        return login;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public String getEmail() {
-        return email;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
                 '}';
     }
 }
