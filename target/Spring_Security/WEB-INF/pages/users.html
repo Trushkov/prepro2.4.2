@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru">
+<html charset="UTF-8">
+<html>
+<head>
+    <title>All Users</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+        }
+        th {
+            text-align: left;
+        }
+        p    {color: #ff0000;}
+    </style>
+</head>
+<body th:align="center">
+<div align center>
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+    <caption>
+        <h2>Users</h2>
+    </caption>
+    <thead>
+    <th>Id</th>
+    <th>Last Name</th>
+    <th>First Name</th>
+    <th>Email</th>
+    </thead>
+    <tbody>
+    <tr th:block th:each="user : ${users}">
+        <td th:utext="${user.id}"></td>
+        <td th:utext="${user.firstName}"></td>
+        <td th:utext="${user.lastName}"></td>
+        <td th:utext="${user.email}"></td>
+        <td><a href="#" th:href="@{/users/delete(id=${user.getId()})}">del</a> |
+            <a href="#" th:href="@{/edit-user(id=${user.getId()})}">edit</a>
+        </td>
+        </th:block>
+    </tr>
+    </tbody>
+</table>
+<br><br>
+<h2>Add a New User:</h2>
+    <form action="#" th:action="@{/users/add}" th:object="${user}" method="post">
+    <label for="firstName">First Name</label><br>
+    <input id="firstName" name="firstName" type="text"><br><br>
+    <label for="lastName">Last Name</label><br>
+    <input id="lastName" name="lastName" type="text"><br><br>
+    <label for="email">Email</label><br>
+    <input id="email" name="email" type="text"><br><br>
+    <input type="submit" value="Add">
+</form>
+</div>
+</body>
+</html>
