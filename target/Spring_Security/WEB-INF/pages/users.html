@@ -34,11 +34,11 @@
     <tbody>
     <tr th:block th:each="user : ${users}">
         <td th:utext="${user.id}"></td>
-        <td th:utext="${user.firstName}"></td>
-        <td th:utext="${user.lastName}"></td>
-        <td th:utext="${user.email}"></td>
-        <td><a href="#" th:href="@{/users/delete(id=${user.getId()})}">del</a> |
-            <a href="#" th:href="@{/edit-user(id=${user.getId()})}">edit</a>
+        <td th:utext="${user.login}"></td>
+        <td th:utext="${user.password}"></td>
+        <td th:utext="${user.roles}"></td>
+        <td><a href="#" th:href="@{admin/users/delete(id=${user.getId()})}">del</a> |
+            <a href="#" th:href="@{admin/edit-user(id=${user.getId()})}">edit</a>
         </td>
         </th:block>
     </tr>
@@ -47,12 +47,10 @@
 <br><br>
 <h2>Add a New User:</h2>
     <form action="#" th:action="@{/users/add}" th:object="${user}" method="post">
-    <label for="firstName">First Name</label><br>
-    <input id="firstName" name="firstName" type="text"><br><br>
-    <label for="lastName">Last Name</label><br>
-    <input id="lastName" name="lastName" type="text"><br><br>
-    <label for="email">Email</label><br>
-    <input id="email" name="email" type="text"><br><br>
+    <label for="login">Login</label><br>
+    <input id="login" name="login" type="text"><br><br>
+    <label for="password">Password</label><br>
+    <input id="password" name="password" type="text"><br><br>
     <input type="submit" value="Add">
 </form>
 </div>
