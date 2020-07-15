@@ -54,6 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //страница не требующая авторизации
                 .antMatchers("/registration").not().fullyAuthenticated()
+                .antMatchers("/registration/save").not().fullyAuthenticated()
                 //страницы аутентификаци доступна всем
                 .antMatchers("/login").anonymous()
                 // защищенные URL

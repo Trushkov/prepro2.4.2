@@ -2,6 +2,8 @@ package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -37,7 +39,7 @@ public class UserController {
 		return "login";
 	}
 
-	@RequestMapping(value = "admin/users", method = RequestMethod.GET)
+	@RequestMapping(value = "users", method = RequestMethod.GET)
 	public String getUsers(ModelMap model) {
 		model.addAttribute("user", new User());
 		model.addAttribute("users", userService.getUsers());
@@ -53,7 +55,7 @@ public class UserController {
 		} else {
 			userService.updateUser(user);
 		}
-		return "redirect:admin/users";
+		return "redirect:users";
 	}
 
 	@RequestMapping(value = "admin/users/delete")
@@ -69,9 +71,21 @@ public class UserController {
 		return "edit-user";
 	}
 
-	@RequestMapping(value = "registration")
-	public String save(){
+	@RequestMapping(value = "registration", method = RequestMethod.GET)
+	public String getForm(Model model){
+		model.addAttribute("user", new User());
+		model.addAttribute("users", userService.getUsers());
 		return "registration";
+	}
+
+	@RequestMapping(value = "registration/save", method = RequestMethod.POST)
+	public String save(@ModelAttribute("user") User user, Model model){
+		model.addAttribute("users", userService.getUsers());
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		userService.addUser(user);
+		return "redirect:registration";
+
 	}
 
 }
