@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import web.model.Role;
 import web.model.User;
 import web.service.UserService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -51,6 +51,7 @@ public class UserController {
 		if (user.getId() == 0) {
 			userService.addUser(user);
 			model.addAttribute("users", userService.getUsers());
+			model.addAttribute("ROLES", Arrays.asList("USER", "ADMIN"));
 
 		} else {
 			userService.updateUser(user);
@@ -68,6 +69,7 @@ public class UserController {
 	public String edit(@RequestParam("id") long id, Model model) {
 		model.addAttribute("user", userService.getUser(id));
 		model.addAttribute("users", userService.getUsers());
+		model.addAttribute("ROLES", Arrays.asList("USER", "ADMIN"));
 		return "edit-user";
 	}
 
@@ -75,17 +77,26 @@ public class UserController {
 	public String getForm(Model model){
 		model.addAttribute("user", new User());
 		model.addAttribute("users", userService.getUsers());
+		model.addAttribute("ROLES", Arrays.asList("USER", "ADMIN"));
 		return "registration";
 	}
 
 	@RequestMapping(value = "registration/save", method = RequestMethod.POST)
-	public String save(@ModelAttribute("user") User user, Model model){
+	public String save(@ModelAttribute("user") User user, Model model,
+					   @RequestParam(value = "rolesValues") String [] roles){
 		model.addAttribute("users", userService.getUsers());
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		model.addAttribute("user", new User());
+		model.addAttribute("ROLES", Arrays.asList("USER", "ADMIN"));
+		/*PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(passwordEncoder.encode(user.getPassword()));*/
+		Set<Role> roleSet = new HashSet<>();
+		for (String role: roles
+		) {
+			roleSet.add(new Role(role));
+		}
+		user.setRoles(roleSet);
 		userService.addUser(user);
 		return "redirect:registration";
-
 	}
 
 }

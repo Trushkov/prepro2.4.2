@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private String password;
 
     @Column(name = "roles")
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     /*@JoinTable(name = "users_roles"
             , joinColumns = @JoinColumn(name = "user_id")
             , inverseJoinColumns = @JoinColumn(name = "role_id"))*/
@@ -38,11 +38,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(long id, String login, String password, Set<Role> roles) {
+    public User(long id, String login, String password) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.roles = roles;
     }
 
     public long getId() {

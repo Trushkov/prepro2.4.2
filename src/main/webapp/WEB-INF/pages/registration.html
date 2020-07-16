@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <html lang="ru">
 <html charset="UTF-8">
-<html>
 <head>
     <title>All Users</title>
     <style>
@@ -27,9 +26,9 @@
         </caption>
         <thead>
         <th>Id</th>
-        <th>Last Name</th>
-        <th>First Name</th>
-        <th>Email</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Roles</th>
         </thead>
         <tbody>
         <tr th:block th:each="user : ${users}">
@@ -48,16 +47,20 @@
     <h2>Save User:</h2>
     <form action="#" th:action="@{/registration/save}" th:object="${user}" method="post">
         <label for="id">Id</label><br>
-        <input id="id" name="id" type="text"><br><br>
+        <input id="id" name="id" type="text" th:field="*{id}"><br><br>
         <label for="login">Login</label><br>
-        <input id="login" name="login" type="text"><br><br>
+        <input id="login" name="login" type="text" th:field="*{login}"><br><br>
         <label for="password">Password</label><br>
-        <input id="password" name="password" type="text"><br><br>
-        <label for="roles">Password</label><br>
-        <input id="roles" name="roles" type="text"><br><br>
+        <input id="password" name="password" type="text" th:field="*{password}"><br><br>
+        <ul>
+            <li th:each="role : ${ROLES}">
+                <input type="checkbox" name="rolesValues" th:value="${role}"/>
+                <label th:text="${role}"></label>
+            </li>
+        </ul>
+
         <input type="submit" value="Save">
     </form>
 </div>
 </body>
-</html>
 </html>
