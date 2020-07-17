@@ -15,8 +15,8 @@ public class Role implements GrantedAuthority {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "role")
-    private String role;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "users")
     @Transient
@@ -30,8 +30,8 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public Role(String role) {
-        this.role = role;
+    public Role(String name) {
+        this.name = name;
     }
 
     public long getId() {
@@ -43,18 +43,18 @@ public class Role implements GrantedAuthority {
     }
 
     public String getRole() {
-        return role;
+        return name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(String name) {
+        this.name = name;
     }
 
-    public Set<User> getUser() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUser(Set<User> user) {
+    public void setUsers(Set<User> user) {
         this.users = user;
     }
 
@@ -67,7 +67,7 @@ public class Role implements GrantedAuthority {
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", role='" + role + '\'' +
+                ", role='" + name + '\'' +
                 ", user=" + users +
                 '}';
     }

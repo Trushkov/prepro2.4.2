@@ -1,5 +1,6 @@
 package web.dao;
 
+import org.springframework.transaction.annotation.Transactional;
 import web.model.Role;
 import web.model.User;
 import org.hibernate.Session;

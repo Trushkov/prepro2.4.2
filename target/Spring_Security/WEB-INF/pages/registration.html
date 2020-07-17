@@ -53,9 +53,9 @@
         <label for="password">Password</label><br>
         <input id="password" name="password" type="text" th:field="*{password}"><br><br>
         <ul>
-            <li th:each="role : ${ROLES}">
-                <input type="checkbox" name="rolesValues" th:value="${role}"/>
-                <label th:text="${role}"></label>
+            <li th:each="name : ${ROLES}">
+                <input type="checkbox" name="rolesValues" th:value="${name}"/>
+                <label th:text="${name}"></label>
             </li>
         </ul>
 
