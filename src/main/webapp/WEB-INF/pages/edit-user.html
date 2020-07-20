@@ -34,9 +34,9 @@
         <tbody>
         <tr th:block th:each="user : ${users}">
             <td th:utext="${user.id}"></td>
-            <td th:utext="${user.firstName}"></td>
-            <td th:utext="${user.lastName}"></td>
-            <td th:utext="${user.email}"></td>
+            <td th:utext="${user.login}"></td>
+            <td th:utext="${user.password}"></td>
+            <td th:utext="${user.roles}"></td>
             <td><a href="#" th:href="@{/users/delete(id=${user.getId()})}">del</a> |
                 <a href="#" th:href="@{/edit-user(id=${user.getId()})}">edit</a>
             </td>

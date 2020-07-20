@@ -28,11 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin()
                 // указываем страницу с формой логина
-                //.loginPage("/login")
-                //указываем логику обработки при логине
+                   //указываем логику обработки при логине
                 .successHandler(new LoginSuccessHandler())
                 .permitAll();
-
         http.logout()
                 // разрешаем делать логаут всем
                 .permitAll()
@@ -46,11 +44,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
-                //страница не требующая авторизации
-                .antMatchers("/registration").not().fullyAuthenticated()
-                .antMatchers("/registration/save").not().fullyAuthenticated()
                 //страницы аутентификаци доступна всем
-                .antMatchers("/login").anonymous()
+                .antMatchers("/registration/save", "/registration").anonymous()
+                .antMatchers("/user").hasRole("USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 // защищенные URL
                 .antMatchers("/hello").access("hasAnyRole('ADMIN')").anyRequest().authenticated();
     }
