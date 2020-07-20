@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-@Transactional
+
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     UserDaoImpl dao;
@@ -26,6 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.dao = dao;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         User user = dao.getUserByName(login);

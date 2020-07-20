@@ -1,7 +1,7 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -28,29 +28,24 @@ public class UserController {
 	@Autowired
 	RoleDao roleDao;
 
-	@RequestMapping(value = "hello", method = RequestMethod.GET)
-	public String printWelcome(ModelMap model) {
-		List<String> messages = new ArrayList<>();
-		messages.add("Hello!");
-		messages.add("I'm Spring MVC-SECURITY application");
-		messages.add("5.2.0 version by sep'19 ");
-		model.addAttribute("messages", messages);
-		return "hello";
+	@RequestMapping(value = "user", method = RequestMethod.GET)
+	public String getUserInfo(Model model){
+		User user = (User) SecurityContextHolder
+				.getContext()
+				.getAuthentication()
+				.getPrincipal();
+		model.addAttribute("user", user);
+		return "user";
 	}
 
-	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public String loginPage() {
-		return "login";
-	}
-
-	@RequestMapping(value = "users", method = RequestMethod.GET)
+	@RequestMapping(value = "admin", method = RequestMethod.GET)
 	public String getUsers(ModelMap model) {
 		model.addAttribute("user", new User());
 		model.addAttribute("users", userService.getUsers());
-		return "users";
+		return "admin";
 	}
 
-	@RequestMapping(value = "admin/users/add", method = RequestMethod.POST)
+	@RequestMapping(value = "admin/add", method = RequestMethod.POST)
 	public String addUser(@ModelAttribute("user") User user, Model model) {
 		if (user.getId() == 0) {
 			userService.addUser(user);
@@ -60,13 +55,13 @@ public class UserController {
 		} else {
 			userService.updateUser(user);
 		}
-		return "redirect:users";
+		return "redirect:admin";
 	}
 
-	@RequestMapping(value = "admin/users/delete")
+	@RequestMapping(value = "admin/delete")
 	public String removeUser(@RequestParam("id") long id) {
 		userService.remove(id);
-		return "redirect:/users";
+		return "redirect:admin";
 	}
 
 	@RequestMapping(value = "admin/edit-user")
@@ -88,8 +83,8 @@ public class UserController {
 	@RequestMapping(value = "registration/save", method = RequestMethod.POST)
 	public String save(@ModelAttribute("user") User user,
 					   @RequestParam(value = "rolesValues") String [] roles){
-		/*PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		user.setPassword(passwordEncoder.encode(user.getPassword()));*/
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		Set<Role> roleSet = new HashSet<>();
 		for (String role: roles
 		) {

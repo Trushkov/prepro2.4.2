@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     UserDaoImpl dao;
@@ -20,7 +21,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void addUser(User user) {
         dao.addUser(user);
     }
@@ -31,19 +31,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void remove(long id) {
         dao.remove(id);
     }
 
     @Override
-    @Transactional
     public void updateUser(User user) {
         dao.updateUser(user);
     }
 
     @Override
-    @Transactional
     public List<User> getUsers() {
         return dao.getUsers();
     }
