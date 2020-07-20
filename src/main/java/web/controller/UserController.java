@@ -50,7 +50,7 @@ public class UserController {
 		if (user.getId() == 0) {
 			userService.addUser(user);
 			model.addAttribute("users", userService.getUsers());
-			model.addAttribute("ROLES", Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
+			model.addAttribute("ROLES", Arrays.asList("USER", "ADMIN"));
 
 		} else {
 			userService.updateUser(user);
@@ -68,7 +68,7 @@ public class UserController {
 	public String edit(@RequestParam("id") long id, Model model) {
 		model.addAttribute("user", userService.getUser(id));
 		model.addAttribute("users", userService.getUsers());
-		model.addAttribute("ROLES", Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
+		model.addAttribute("ROLES", Arrays.asList("USER", "ADMIN"));
 		return "edit-user";
 	}
 
@@ -76,7 +76,7 @@ public class UserController {
 	public String getForm(Model model){
 		model.addAttribute("user", new User());
 		model.addAttribute("users", userService.getUsers());
-		model.addAttribute("ROLES", Arrays.asList("ROLE_USER", "ROLE_ADMIN"));
+		model.addAttribute("ROLES", Arrays.asList("USER", "ADMIN"));
 		return "registration";
 	}
 

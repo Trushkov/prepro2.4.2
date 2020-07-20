@@ -36,8 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 // указываем URL логаута
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                // указываем URL при удачном логауте
-                .logoutSuccessUrl("/login?logout")
                 //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
                 .and().csrf().disable();
 
@@ -49,7 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 // защищенные URL
-                .antMatchers("/hello").access("hasAnyRole('ADMIN')").anyRequest().authenticated();
+                .antMatchers("/hello").access("hasAnyRole('ADMIN')").anyRequest().authenticated()
+                .and().csrf().disable();
     }
 
     @Bean

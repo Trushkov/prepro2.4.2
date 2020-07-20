@@ -37,8 +37,8 @@
             <td th:utext="${user.login}"></td>
             <td th:utext="${user.password}"></td>
             <td th:utext="${user.roles}"></td>
-            <td><a href="#" th:href="@{/users/delete(id=${user.getId()})}">del</a> |
-                <a href="#" th:href="@{/edit-user(id=${user.getId()})}">edit</a>
+            <td><a href="#" th:href="@{/admin/delete(id=${user.getId()})}">del</a> |
+                <a href="#" th:href="@{admin/edit-user(id=${user.getId()})}">edit</a>
             </td>
             </th:block>
         </tr>
