@@ -58,13 +58,13 @@ public class UserController {
 		return "redirect:admin";
 	}
 
-	@RequestMapping(value = "admin/delete")
+	@RequestMapping(value = "admin/delete", method = RequestMethod.POST)
 	public String removeUser(@RequestParam("id") long id) {
 		userService.remove(id);
 		return "redirect:admin";
 	}
 
-	@RequestMapping(value = "admin/edit-user")
+	@RequestMapping(value = "admin/edit-user", method = RequestMethod.POST)
 	public String edit(@RequestParam("id") long id, Model model) {
 		model.addAttribute("user", userService.getUser(id));
 		model.addAttribute("users", userService.getUsers());

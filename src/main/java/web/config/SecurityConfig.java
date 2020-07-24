@@ -20,6 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     UserDetailsService userDetailsService;
 
     @Override
+    @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
@@ -28,8 +29,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin()
                 // указываем страницу с формой логина
-                   //указываем логику обработки при логине
+                //.and().formLogin()
+                //указываем логику обработки при логине
                 .successHandler(new LoginSuccessHandler())
+                // Указываем параметры логина и пароля с формы логина
+                .usernameParameter("j_username")
+                .passwordParameter("j_password")
+                // даем доступ к форме логина всем
                 .permitAll();
         http.logout()
                 // разрешаем делать логаут всем
@@ -42,13 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
-                //страницы аутентификаци доступна всем
-                .antMatchers("/registration/save", "/registration").anonymous()
-                .antMatchers("/user").hasRole("USER")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                // защищенные URL
-                .antMatchers("/hello").access("hasAnyRole('ADMIN')").anyRequest().authenticated()
-                .and().csrf().disable();
+                .antMatchers("/registration/save", "/registration").not().fullyAuthenticated()
+                .antMatchers("/user").access("hasRole('USER')")
+                .antMatchers("/admin/**").access("hasRole('ADMIN')")
+                .anyRequest().authenticated();
     }
 
     @Bean
