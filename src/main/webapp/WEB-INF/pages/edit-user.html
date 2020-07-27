@@ -20,6 +20,9 @@
     </style>
 </head>
 <body th:align="center">
+<form th:action="@{/logout}" method="post">
+    <input type="submit">LOGOUT</input>
+</form>
 <div align center>
     <table border="1" cellpadding="1" cellspacing="1" style="width:500px">
         <caption>
@@ -27,9 +30,9 @@
         </caption>
         <thead>
         <th>Id</th>
-        <th>Last Name</th>
-        <th>First Name</th>
-        <th>Email</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Roles</th>
         </thead>
         <tbody>
         <tr th:block th:each="user : ${users}">
@@ -37,25 +40,24 @@
             <td th:utext="${user.login}"></td>
             <td th:utext="${user.password}"></td>
             <td th:utext="${user.roles}"></td>
-            <td><a href="#" th:href="@{/admin/delete(id=${user.getId()})}">del</a> |
-                <a href="#" th:href="@{admin/edit-user(id=${user.getId()})}">edit</a>
-            </td>
-            </th:block>
         </tr>
-
         </tbody>
     </table>
     <br><br>
     <h2>Edit User:</h2>
-    <form action="#" th:action="@{/users/add}" th:object="${user}" method="post">
-        <label for="id">id</label><br>
+    <form action="#" th:action="@{/admin/add}" th:object="${user}" method="post">
+        <label for="id">Id</label><br>
         <input id="id" name="id" type="text"><br><br>
-        <label for="firstName">First Name</label><br>
-        <input id="firstName" name="firstName" type="text"><br><br>
-        <label for="lastName">Last Name</label><br>
-        <input id="lastName" name="lastName" type="text"><br><br>
-        <label for="email">Email</label><br>
-        <input id="email" name="email" type="text"><br><br>
+        <label for="login">Login</label><br>
+        <input id="login" name="login" type="text"><br><br>
+        <label for="password">Password</label><br>
+        <input id="password" name="password" type="text"><br><br>
+        <ul>
+            <li th:each="name : ${ROLES}">
+                <input type="checkbox" name="rolesValues" th:value="${name}"/>
+                <label th:text="${name}"></label>
+            </li>
+        </ul>
         <input type="submit" value="Edit">
     </form>
 </div>

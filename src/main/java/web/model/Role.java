@@ -1,7 +1,6 @@
 package web.model;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -70,10 +69,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", role='" + name + '\'' +
-                ", user=" + users +
-                '}';
+        return name;
     }
 }

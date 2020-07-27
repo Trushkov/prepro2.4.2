@@ -36,7 +36,7 @@
             <td th:utext="${user.login}"></td>
             <td th:utext="${user.password}"></td>
             <td th:utext="${user.roles}"></td>
-            <td><a href="#" th:href="@{admin/users/delete(id=${user.getId()})}">del</a> |
+            <td><a href="#" th:href="@{admin/users/delete(id=${user.getId()})}">del</a>----
                 <a href="#" th:href="@{admin/edit-user(id=${user.getId()})}">edit</a>
             </td>
             </th:block>
@@ -46,8 +46,6 @@
     <br><br>
     <h2>Save User:</h2>
     <form action="#" th:action="@{/registration/save}" th:object="${user}" method="post">
-        <label for="id">Id</label><br>
-        <input id="id" name="id" type="text" th:field="*{id}"><br><br>
         <label for="login">Login</label><br>
         <input id="login" name="login" type="text" th:field="*{login}"><br><br>
         <label for="password">Password</label><br>
